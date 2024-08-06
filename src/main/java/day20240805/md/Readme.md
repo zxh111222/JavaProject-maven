@@ -1,6 +1,8 @@
 ## 回顾 - 如果要把第三方的 `Jsoup` 提高功能，我们的步骤是怎样的？
 回顾 day20240420
 
+## 回顾之前的第三方包管理方式及问题  
+
 ### 继续思考  
 - 下一个问题: 如果要更新 `Jsoup` 又该怎么做？
 - 在回忆之前引入邮件发送功能，不止一个 jar 包，它的更新又如何？
@@ -12,7 +14,7 @@
 ### 引出 Build System
 ![img_1.png](img_1.png)
 
-## `settings.xml`
+### `settings.xml`
 ![img_2.png](img_2.png)
 
 ### 暗转之前: `Verify the signature`
@@ -30,11 +32,11 @@
 - 验证
 ![img_9.png](img_9.png)
 
-### 复习部分 git 操作
+## 复习部分 git 操作
 ![img_10.png](img_10.png)
 ![img_11.png](img_11.png)
 
-### 在 gitee 或 github 上创建新的仓库存储新的 maven 项目代码
+## 在 gitee 或 github 上创建新的仓库存储新的 maven 项目代码
 ![img_12.png](img_12.png)
 
 ## 用 `maven` 的方式替换之前手动维护第三方依赖
