@@ -34,11 +34,11 @@ public class Student {
     }
 
     //behavior
-    public String getName() {
+    public String getNewName() {
         return newName;
     }
 
-    public void setName(String name) {
+    public void setNewName(String name) {
         this.newName = name;
     }
 
