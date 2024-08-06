@@ -14,7 +14,8 @@ import lombok.NoArgsConstructor;
 
 @Setter
 @Getter
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class Student {
 
     //state
