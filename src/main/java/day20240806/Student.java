@@ -1,22 +1,27 @@
 package day20240806;
 
+import lombok.Setter;
+
 /**
  * @author XinhaoZheng
  * @version 1.0
  * @description: TODO
  * @date 2024/8/6 11:06
  */
+
+
 public class Student {
+
     //state
-    String name;
+    String newName;
     int age;
+
     //constructor
     public Student() {
-
     }
 
     public Student(String name) {
-        this.name = name;
+        this.newName = name;
     }
 
     public Student(int age) {
@@ -24,18 +29,17 @@ public class Student {
     }
 
     public Student(String name, int age) {
-        this.name = name;
+        this.newName = name;
         this.age = age;
     }
+
     //behavior
-
-
     public String getName() {
-        return name;
+        return newName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.newName = name;
     }
 
     public int getAge() {
