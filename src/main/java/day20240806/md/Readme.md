@@ -22,4 +22,51 @@
 ## `Java Bean` 、 `POJO`
 ![img.png](img.png)
 
+## `lombok`  
+### 分析 `lombok` 的作用
+![img_5.png](img_5.png)
+### `lombok` 插件
+![img_6.png](img_6.png)
+### `lombok` 背后的思想  
+![img_7.png](img_7.png)
+
+## 由 `lombok` 引出 Java 的 `record` 关键字  
+![img_8.png](img_8.png)
+
+## 额外引出的 `git` 操作及命令
+### IDEA 集成操作
+![img_9.png](img_9.png)
+![img_10.png](img_10.png)
+### 额外命令
+- 查看当前仓库下的所有 git 操作记录 
+  - `git reflog --date=iso` 
+- 后悔药（危险操作，考虑清楚之后才执行）
+  - `git reset --hard` 【具体要回退到哪个commit 2aabfa4】
+
+## 将自己打包好的 `jar` 包，分享给别人使用
+![img_11.png](img_11.png)
+
+## 引出 `JUnit5`、体会单元测试与以前普通测试的差异
+![img_12.png](img_12.png)
+![img_13.png](img_13.png)
+![img_14.png](img_14.png)
+![img_15.png](img_15.png)
+
+## Maven Build Lifecycle
+![img_16.png](img_16.png)
+
+## 测试几个命令
+- `mvn clean` 清理
+- `mvn compile` 编译
+- `mvn test` 执行单元测试
+- `mvn package` 打包
+
+### `mvn install`
+![img_17.png](img_17.png)
+
+
+
+
+
+
 
