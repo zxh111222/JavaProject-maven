@@ -74,7 +74,7 @@ Installing GnuPG、Generating a Key Pair、Listing Keys、Signing a File、Distr
 - 见昨天笔记的 central-publishing-maven-plugin
 
 ## 改进3：pom.xml 中的 build 内容精简优化，暂时先不用 pluginManagement
-```
+```dtd
 <build>
     <plugins>
         <plugin>
@@ -140,26 +140,123 @@ Installing GnuPG、Generating a Key Pair、Listing Keys、Signing a File、Distr
 - 借助 maven 插件完成所有步骤
 
 
+## MySQL
+![img_15.png](img_15.png)
 
+## 从几个问题开始
+- MySQL 的 My 是什么意思
+- MySQL 的 SQL 是什么意思
+- MySQL 的发音是什么
 
+## 阅读一手资源逐一解答
+- The My part of MySQL stands for ...
+![img_16.png](img_16.png)
+- The SQL part of MySQL stands for ...
+![img_17.png](img_17.png)
+- The official way to pronounce “MySQL” is ...
+![img_18.png](img_18.png)
 
+## What is MySQL?
+### 存储
+- 内存
+- 文件
+- 专业的存储软件
+### 主流数据库软件
+DB-Engines Ranking https://db-engines.com/en/ranking
+![img_19.png](img_19.png)
+![img_20.png](img_20.png)
 
+### Download
+![img_21.png](img_21.png)
+- https://www.mysql.com/
+- downloads
+- MySQL Community (GPL) Downloads
+  - Windows: MySQL Installer for Windows
+![img_22.png](img_22.png)
+![img_23.png](img_23.png)
+  - macOS: MySQL Community Server
+![img_24.png](img_24.png)
+![img_25.png](img_25.png)
+- No thanks, just start my download
+![img_26.png](img_26.png)
 
+## MD5 checksums and GnuPG signatures
+![img_27.png](img_27.png)
+- for windows: certutil -hashfile filename MD5
+- for Linux: md5sum filename
+- for macOS: md5 mysql-8.0.37-macos14-x86_64.dmg
+```
+# macOS
+md5 mysql-8.0.37-macos14-x86_64.dmg
+MD5 (mysql-8.0.37-macos14-x86_64.dmg) = bd21d9c0a1e8b712fc80da73dc2386bd
+```
 
+## Install
+## Connecting to and Disconnecting from the Server
+- 配置环境变量
+- 执行 `mysql -V` 验证命令是否正确输出了 MySQL 的版本号
+- https://dev.mysql.com/doc/refman/8.0/en/connecting-disconnecting.html
+- 执行第一条 SQL 语句 `SELECT VERSION(), CURRENT_DATE;`
+![img_28.png](img_28.png)
 
+## Overview of the MySQL Database Management System
+- https://dev.mysql.com/doc/refman/8.0/en/what-is.html
 
+### What is MySQL?
+![img_29.png](img_29.png)
 
+#### The Main Features of MySQL
+- https://dev.mysql.com/doc/refman/8.0/en/history.html
+#### History of MySQL
+- https://dev.mysql.com/doc/refman/8.0/en/history.html
+- MySQL is named after co-founder Monty Widenius's daughter, My.
 
+## 最终还是存到文件中
+![img_30.png](img_30.png)
 
+## MySQL 类比 Excel
+![img_31.png](img_31.png)
 
+## 执行的 SQL
+- `create database demo01;` -- 创建数据库（创建Excel格式的文件）
+- `use demo01;` -- 进入指定数据库（打开指定的Excel文件）
+- 在 `excel` 文件中新建 sheet 并定义表头
 
+```dtd
+CREATE TABLE `user`
+(
+`id`      int(11) NOT NULL AUTO_INCREMENT,
+`name`    varchar(255) DEFAULT NULL,
+`balance` int(11) DEFAULT NULL,
+PRIMARY KEY (`id`)
+);
+```
 
+`select id,name,balance from user;` -- 查询表中的数据
+`insert into user(name, balance) values('小白', 999);` -- 往表格插入新数据
+`update user set balance = 991 where name='小白';` -- 更新表格中指定的行
 
+## Java 作为客户端连接并操作 MySQL 服务器
 
+### 添加依赖
 
+```dtd
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <version>8.2.0</version>
+</dependency>
+```
 
+### 写代码 vs 直接在cmd中的操作
+![img_32.png](img_32.png)
+![img_33.png](img_33.png)
+![img_34.png](img_34.png)
 
-
+## 课后练习
+![img_35.png](img_35.png)
+- 下图中右下角区域，浅红色背景的为这次作业的新需求
+![img_36.png](img_36.png)
 
 
 
