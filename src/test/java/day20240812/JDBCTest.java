@@ -27,6 +27,8 @@ public class JDBCTest {
             int balance = rs.getInt("balance");
             System.out.println(id + "\t" + name + "\t" + balance);
         }
+        // 关闭连接
+        connection.close();
     }
 
     @Test
@@ -46,6 +48,8 @@ public class JDBCTest {
             int balance = rs.getInt("balance");
             System.out.println(id + "\t" + name + "\t" + balance);
         }
+        // 关闭连接
+        connection.close();
     }
 
     @Test
