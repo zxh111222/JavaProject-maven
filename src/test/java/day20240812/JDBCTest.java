@@ -30,8 +30,22 @@ public class JDBCTest {
     }
 
     @Test
-    public void testPreparedStatement() {
-        System.out.println("JDBCTest.testPreparedStatement");
+    public void testPreparedStatement() throws SQLException {
+        // 获取 Connection (连接到 MySQL 服务器)
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo01", "root", "123456");
+        System.out.println("Connected to database");
+        // 对 `MySQL 服务器` 讲它听得懂的话：SQL 之 PreparedStatement
+        String query = "select id, name, balance from user where id = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setInt(1, 1);
+        // 需要结果，就用 ResultSet 来接收
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            int balance = rs.getInt("balance");
+            System.out.println(id + "\t" + name + "\t" + balance);
+        }
     }
 
     @Test
