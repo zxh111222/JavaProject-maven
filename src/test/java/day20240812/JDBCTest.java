@@ -152,6 +152,44 @@ public class JDBCTest {
 
     @Test
     public void testWithTransactions() {
+        PreparedStatement ppstmt1 = null;
+        PreparedStatement ppstmt2 = null;
+        String update1 = "update user set balance = balance - 10 where id = ?";
+        String update2 = "update user set balance = balance + 10 where id = ?";
 
+        try {
+            connection.setAutoCommit(false);
+
+            ppstmt1 = connection.prepareStatement(update1);
+            ppstmt1.setInt(1, 1);
+            ppstmt1.executeUpdate();
+
+            int i = 2 / 0;
+
+            ppstmt2 = connection.prepareStatement(update2);
+            ppstmt2.setInt(1, 2);
+            ppstmt2.executeUpdate();
+
+            connection.commit();
+        } catch (Exception e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                System.out.println("rollback SQLException: " + e.getMessage());
+            }
+            System.out.println("SQLException: " + e.getMessage());
+        } finally {
+            try {
+                if (ppstmt1 != null) {
+                    ppstmt1.close();
+                }
+                if (ppstmt2 != null) {
+                    ppstmt2.close();
+                }
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                System.out.println("finally 中又遇到了 SQLException: " + e.getMessage());
+            }
+        }
     }
 }
