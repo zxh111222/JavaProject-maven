@@ -65,7 +65,14 @@ public class JDBCTest {
 
     @Test
     public void insert() {
-
+        String insertSql = "insert into user(name, balance) values(?, ?);";
+        try (PreparedStatement pStmt = connection.prepareStatement(insertSql)) {
+            pStmt.setString(1, "alex000");
+            pStmt.setInt(2, 50);
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
     }
 
     @Test
