@@ -41,8 +41,8 @@ public class DbStorage implements Storage {
                 // 插入记录
                 insertStmt.setString(1, result.getTitle());
                 insertStmt.setString(2, result.getUrl());
-                insertStmt.setString(3, result.getCreatedAt());
-                insertStmt.setString(4, result.getUpdatedAt());
+                insertStmt.setTimestamp(3, new Timestamp(result.getCreatedAt().getTime()));
+                insertStmt.setTimestamp(4, new Timestamp(result.getUpdatedAt().getTime()));
                 insertStmt.executeUpdate();
             }
         } catch (SQLException e) {
