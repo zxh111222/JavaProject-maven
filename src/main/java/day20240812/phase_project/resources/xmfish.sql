@@ -2,7 +2,7 @@ CREATE TABLE `xmfish`
 (
     `id`    int(11) NOT NULL AUTO_INCREMENT,
     `title` varchar(255) DEFAULT NULL,
-    `url`   varchar(255) DEFAULT NULL,
+    `url`   varchar(255) DEFAULT NULL UNIQUE,
     `createdAt` varchar(50) DEFAULT NULL,
     `updatedAt` varchar(50) DEFAULT NULL,
     PRIMARY KEY (`id`)

@@ -2,6 +2,7 @@ package day20240812.phase_project.storage;
 
 import day20240812.phase_project.dto.CustomResult;
 import day20240812.phase_project.storage.Storage;
+import day20240812.phase_project.util.MyDBUtil;
 
 import java.io.IOException;
 import java.sql.*;
@@ -16,97 +17,46 @@ import java.util.List;
 public class DbStorage implements Storage {
     @Override
     public void save(List<CustomResult> information) throws IOException, SQLException {
-        Connection connection = null;
-        PreparedStatement pstmt = null;
+        PreparedStatement checkStmt = null;
+        PreparedStatement insertStmt = null;
+        String checkSql = "SELECT COUNT(*) FROM xmfish WHERE url = ?;";
+        String insertSql = "INSERT INTO xmfish (title, url, createdAt, updatedAt) VALUES (?, ?, ?, ?);";
 
         try {
-            // 数据库连接，首先尝试连接到 MySQL Server
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/xmfish", "root", "123456");
-
-            // 创建表结构
-            createTableIfNotExists(connection);
-
-            String insertSql = "INSERT INTO xmfish (title, url, createdAt, updatedAt) VALUES (?, ?, ?, ?);";
-            pstmt = connection.prepareStatement(insertSql);
-
-            connection.setAutoCommit(false);
-
-            // 插入每一条记录
+            // 获取数据库连接
+            Connection connection = MyDBUtil.getConnection();
+            // 准备查询和插入的 SQL 语句
+            checkStmt = connection.prepareStatement(checkSql);
+            insertStmt = connection.prepareStatement(insertSql);
             for (CustomResult result : information) {
-                pstmt.setString(1, result.getTitle());
-                pstmt.setString(2, result.getUrl());
-                pstmt.setString(3, result.getCreatedAt());
-                pstmt.setString(4, result.getUpdatedAt());
-                pstmt.addBatch();
-            }
+                // 检查 URL 是否存在
+                checkStmt.setString(1, result.getUrl());
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    // URL 已经存在，提示并跳过
+                    System.out.println("URL 已存在，跳过: " + result.getUrl());
+                    continue;
+                }
 
-            pstmt.executeBatch();
-            connection.commit();
+                // 插入记录
+                insertStmt.setString(1, result.getTitle());
+                insertStmt.setString(2, result.getUrl());
+                insertStmt.setString(3, result.getCreatedAt());
+                insertStmt.setString(4, result.getUpdatedAt());
+                insertStmt.executeUpdate();
+            }
         } catch (SQLException e) {
-            if (connection != null && !connection.getAutoCommit()) {
-                connection.rollback();
-            }
-            e.printStackTrace();
-            throw e;
+            throw new RuntimeException(e);
         } finally {
             // 关闭资源
-            if (pstmt != null) {
-                pstmt.close();
+            if (checkStmt != null) {
+                checkStmt.close();
             }
-            if (connection != null) {
-                connection.close();
+            if (insertStmt != null) {
+                insertStmt.close();
             }
+
         }
-    }
-
-
-    // 创建表结构
-    private void createTableIfNotExists(Connection connection) throws SQLException {
-        Statement stmt = null;
-        try {
-            stmt = connection.createStatement();
-            String createTableSql = "CREATE TABLE IF NOT EXISTS xmfish (" +
-                                    "`id` INT AUTO_INCREMENT PRIMARY KEY, " +
-                                    "`title` VARCHAR(255) NOT NULL, " +
-                                    "`url` VARCHAR(255) NOT NULL, " +
-                                    "`createdAt` VARCHAR(50) NOT NULL, " +
-                                    "`updatedAt` VARCHAR(50) NOT NULL" +
-                                    ");";
-            stmt.execute(createTableSql);
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-    }
-
-
-    private static void select(Connection connection) throws SQLException {
-        Statement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = connection.createStatement();
-            String selectSql = "select id, title, url, createdAt, updatedAt from xmfish;";
-            rs = stmt.executeQuery(selectSql);
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String title = rs.getString("title");
-                String url = rs.getString("url");
-                String createdAt = rs.getString("createdAt");
-                String updatedAt = rs.getString("updatedAt");
-                System.out.println(id + "\t" + title + "\t" + url + "\t" + createdAt + "\t" + updatedAt);
-            }
-        } finally {
-            // 关闭资源
-            if (rs != null) {
-                rs.close();
-            }
-            if (stmt != null) {
-                stmt.close();
-            }
-        }
-
     }
 
 }
