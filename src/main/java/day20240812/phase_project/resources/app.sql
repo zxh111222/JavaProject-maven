@@ -11,21 +11,27 @@ CREATE TABLE `xmfish`
 );
 
 CREATE TABLE `app_config` (
-                            id INT AUTO_INCREMENT PRIMARY KEY,
-                            app_name VARCHAR(255) NOT NULL,
-                            version VARCHAR(50),
-                            downloader VARCHAR(255),
-                            url varchar(255),
-                            parser VARCHAR(255),
-                            storage VARCHAR(255),
-                            keywords varchar(255),
-                            notificator VARCHAR(255),
-                            email_from VARCHAR(255),
-                            secret_token VARCHAR(255),
-                            email_to VARCHAR(255)
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `app_name` VARCHAR(50) NOT NULL,
+    `version` VARCHAR(50) NOT NULL,
+    `config_name` VARCHAR(255) NOT NULL,     -- 配置集的名称
+    `key` VARCHAR(255) NOT NULL,
+    `value` VARCHAR(255) NOT NULL
 );
 
-INSERT INTO app_config (app_name, version, downloader, url, parser, storage, keywords, notificator, email_from, secret_token, email_to)
-    VALUES ('app', '1.0', 'day20240812.phase_project.downloader.MyIODownloader', 'http://bbs.xmfish.com/thread-htm-fid-55-search-all-orderway-postdate-asc-DESC-page-1.html',
-            'day20240812.phase_project.parser.XmfishParser', 'day20240812.phase_project.storage.DbStorage', '小米,华为,闲置',
-            'day20240812.phase_project.notificator.ConsoleNotificator', 'from.1305894626@qq.com', 'pkosdfvogudhjghf', 'to.2010824936@qq.com');
+INSERT INTO `app_config` (`app_name`, `version`, `config_name`, `key`, `value`)
+VALUES
+    ('阶段项目', '1.0', 'app', 'app', '阶段项目'),
+    ('阶段项目', '1.0', 'version', 'version', '1.0'),
+    ('阶段项目', '1.0', 'downloader', 'MyIODownloader', 'day20240812.phase_project.downloader.MyIODownloader'), -- JsoupDownloader
+    ('阶段项目', '1.0', 'url', 'xmfishURL', 'http://bbs.xmfish.com/thread-htm-fid-55-search-all-orderway-postdate-asc-DESC-page-1.html'),
+    ('阶段项目', '1.0', 'parser', 'xmfishParser', 'day20240812.phase_project.parser.XmfishParser'),
+    ('阶段项目', '1.0', 'storage', 'DbStorage', 'day20240812.phase_project.storage.DbStorage'),   -- ConsoleStorage、FileStorage
+    ('阶段项目', '1.0', 'keywords', 'keywords', '小米,华为,闲置'),
+    ('阶段项目', '1.0', 'notificator', 'ConsoleNotificator', 'day20240812.phase_project.notificator.ConsoleNotificator'),  -- EmailNotificator
+    ('阶段项目', '1.0', 'from', 'from', 'from.xxx@qq.com'),
+    ('阶段项目', '1.0', 'secret_token', 'secret_token', 'xxx'),
+    ('阶段项目', '1.0', 'to', 'to', 'to.xxx@qq.com');
+
+
+

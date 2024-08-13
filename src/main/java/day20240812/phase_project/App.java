@@ -7,6 +7,7 @@ import day20240812.phase_project.parser.Parser;
 import day20240812.phase_project.storage.Storage;
 
 import java.io.*;
+import java.sql.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -75,17 +76,26 @@ public class App {
 
     private static Properties loadFromConfiguration() {
         Properties properties = new Properties();
-        String fileName = "src/main/java/day20240812/phase_project/resources/config_local.properties";
+        String query = "SELECT `config_name`, `key`, `value` FROM app_config WHERE app_name = ? AND version = ?";
         try {
-            properties.load(new FileReader(fileName));
-        } catch (FileNotFoundException e) {
-            System.out.println("配置文件[" + fileName + "]不存在！");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "root", "123456");
+            PreparedStatement pstmt = connection.prepareStatement(query);
+
+            pstmt.setString(1, "阶段项目");
+            pstmt.setString(2, "1.0");
+
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                while (resultSet.next()) {
+                    String config_name = resultSet.getString("config_name");
+                    String value = resultSet.getString("value");
+                    properties.setProperty(config_name, value);
+                }
+                System.out.println("配置文件从数据库读取成功！");
+            }
+        } catch (SQLException e) {
+            System.out.println("从数据库读取配置时出错: " + e.getMessage());
             throw new RuntimeException(e);
-        } catch (IOException e) {
-            System.out.println("未知的错误！");
-            throw  new RuntimeException(e);
         }
-        System.out.println("配置文件读取成功！");
         return properties;
     }
 
