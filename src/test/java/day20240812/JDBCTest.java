@@ -108,7 +108,13 @@ public class JDBCTest {
 
     @Test
     public void delete() {
-
+        String updateSql = "delete from user where name = ?";
+        try (PreparedStatement pStmt = connection.prepareStatement(updateSql)) {
+            pStmt.setString(1, "alex");
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
     }
 
     @Test
