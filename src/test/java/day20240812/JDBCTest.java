@@ -77,6 +77,21 @@ public class JDBCTest {
 
     @Test
     public void batchInsert() {
+        String insertSql = "insert into user(name, balance) values(?, ?);";
+        try (PreparedStatement pStmt = connection.prepareStatement(insertSql)) {
+
+            pStmt.setString(1, "alex");
+            pStmt.setInt(2, 50);
+            pStmt.addBatch();
+
+            pStmt.setString(1, "bob");
+            pStmt.setInt(2, 30);
+            pStmt.addBatch();
+
+            pStmt.executeBatch();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
 
     }
 
