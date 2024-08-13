@@ -97,7 +97,13 @@ public class JDBCTest {
 
     @Test
     public void update() {
-
+        String updateSql = "update user set balance = balance + 5 where name = ?";
+        try (PreparedStatement pStmt = connection.prepareStatement(updateSql)) {
+            pStmt.setString(1, "alex");
+            pStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e.getMessage());
+        }
     }
 
     @Test
