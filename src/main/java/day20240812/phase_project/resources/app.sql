@@ -10,6 +10,11 @@ CREATE TABLE `xmfish`
     PRIMARY KEY (`id`)
 );
 
+ALTER TABLE `xmfish` MODIFY createdAt TIMESTAMP NULL;
+ALTER TABLE `xmfish` MODIFY updatedAt TIMESTAMP NULL;
+
+
+
 CREATE TABLE `app_config` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
     `app_name` VARCHAR(50) NOT NULL,

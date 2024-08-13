@@ -25,7 +25,11 @@ public class CustomResult {
         try {
             // 将字符串解析为 Date 对象
             this.createdAt = dateFormat_1.parse(createdAt);
-            this.updatedAt = dateFormat_2.parse(updatedAt);
+            if (updatedAt != null && !updatedAt.isEmpty()) {
+                this.updatedAt = dateFormat_2.parse(updatedAt);
+            } else {
+                this.updatedAt = null;
+            }
         } catch (ParseException e) {
             e.printStackTrace(); // 处理解析异常
         }

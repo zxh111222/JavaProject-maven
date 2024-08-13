@@ -8,10 +8,7 @@ import day20240812.phase_project.storage.Storage;
 
 import java.io.*;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author XinhaoZheng
@@ -24,8 +21,9 @@ import java.util.Properties;
 public class App {
 
     public static final Properties PROPERTIES;
-    private static Connection CONNECTION;
-    private static Map<String, String> URLPARSERMAP = new HashMap<>();
+    private static Connection connection;
+    private static  Map<String, List<String>> urlParserMap = new HashMap<>();
+    private static List<CustomResult> information = null;
 
     static {
         PROPERTIES = loadFromConfiguration();
@@ -46,11 +44,12 @@ public class App {
         String app = PROPERTIES.getProperty("app");
         System.out.println("程序名称 : " + app);
         System.out.println("程序开始运行...");
+//        System.out.println(urlParserMap);
 
-        for (Map.Entry<String, String> site : URLPARSERMAP.entrySet()) {
-            String urlName = PROPERTIES.getProperty("urlName");
-            String url = site.getKey();
-            String url_parser = site.getValue();
+        for (Map.Entry<String, List<String>> site : urlParserMap.entrySet()) {
+            String urlName = site.getKey();;
+            String url = site.getValue().get(0);
+            String url_parser = site.getValue().get(1);
 
             if (url_parser == null) {
                 System.out.println("没有找到解析器配置，跳过 URL: " + url);
@@ -68,7 +67,7 @@ public class App {
             // 解析模块: 根据配置文件的信息进行不同 url 的解析
             System.out.println("Parser - 正在解析...");
             Parser parser = Parser.getInstance(url_parser);
-            List<CustomResult> information = parser.parse(html);
+            information = parser.parse(html);
             System.out.println("Parser - 解析完成！(共获取到" + information.size() + "条数据)");
             // System.out.println(information);
 
@@ -85,6 +84,8 @@ public class App {
             System.out.println("Notificator - 通知完成...");
         }
 
+
+
         //结束
         System.out.println("程序运行结束!");
     }
@@ -95,8 +96,8 @@ public class App {
         String urlParseQuery = "SELECT * FROM url_parse"; // URL 解析配置的查询
 
         try {
-            CONNECTION = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "root", "123456");
-            PreparedStatement appConfigPstmt  = CONNECTION.prepareStatement(appConfigQuery );
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "root", "123456");
+            PreparedStatement appConfigPstmt  = connection.prepareStatement(appConfigQuery );
 
             appConfigPstmt.setString(1, "阶段项目");
             appConfigPstmt.setString(2, "1.0");
@@ -108,16 +109,21 @@ public class App {
                 properties.setProperty(config_name, value);
             }
             // 读取 URL 解析配置
-            PreparedStatement urlParsePstmt = CONNECTION.prepareStatement(urlParseQuery);
+            PreparedStatement urlParsePstmt = connection.prepareStatement(urlParseQuery);
             ResultSet urlParseResultSet = urlParsePstmt.executeQuery();
             while (urlParseResultSet.next()) {
                 String urlName = urlParseResultSet.getString("name");
                 String url = urlParseResultSet.getString("url");
                 String parser = urlParseResultSet.getString("parser");
-                URLPARSERMAP.put(url, parser);
-                properties.setProperty("urlName", urlName);
-                properties.setProperty("url", url);
-                properties.setProperty("parser", parser);
+                List<String> urlAndParser;
+                if (urlParserMap.containsKey(urlName)) {
+                    urlAndParser = urlParserMap.get(urlName);
+                } else {
+                    urlAndParser = new ArrayList<>();
+                    urlParserMap.put(urlName, urlAndParser);
+                }
+                urlAndParser.add(url);
+                urlAndParser.add(parser);
             }
             System.out.println("配置文件从数据库读取成功！");
         } catch (SQLException e) {

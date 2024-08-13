@@ -17,8 +17,7 @@ public class MyDBUtil {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "123456");
             createDatabaseIfNotExists(connection);
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "root", "123456");
-            createXmfishTableIfNotExists(connection);
-            System.out.println("Connected to database");
+            createTableIfNotExists(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -40,16 +39,16 @@ public class MyDBUtil {
     }
 
     // 创建表结构
-    private static void createXmfishTableIfNotExists(Connection connection) throws SQLException {
+    private static void createTableIfNotExists(Connection connection) throws SQLException {
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
-            String createTableSql = "CREATE TABLE IF NOT EXISTS xmfish (" +
+            String createTableSql = "CREATE TABLE IF NOT EXISTS information (" +
                     "`id` INT AUTO_INCREMENT PRIMARY KEY, " +
-                    "`title` VARCHAR(255) NOT NULL, " +
+                    "`title` VARCHAR(255) DEFAULT NULL, " +
                     "`url` VARCHAR(255) NOT NULL UNIQUE, " +
-                    "`createdAt` DATE NOT NULL, " +
-                    "`updatedAt` DATETIME NOT NULL" +
+                    "`createdAt` DATE DEFAULT NULL, " +
+                    "`updatedAt` DATETIME DEFAULT NULL" +
                     ");";
             stmt.execute(createTableSql);
         } finally {
