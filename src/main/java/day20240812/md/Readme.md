@@ -10,3 +10,26 @@
 ### 验证过程
 ![img_4.png](img_4.png)
 
+## 阅读一手资源之 JDBC
+![img_5.png](img_5.png)
+![img_6.png](img_6.png)
+![img_7.png](img_7.png)
+
+## 编写 JDBC 单元测试代码 
+![img_8.png](img_8.png)
+![img_9.png](img_9.png)
+![img_10.png](img_10.png)
+
+### 引出 JUnit5 的 @BeforeAll 和 @AfterAll
+![img_11.png](img_11.png)
+
+### 复习命令行敲过的 SQL
+- mysql -uroot -p
+- show databases;
+- use demo01;
+- show tables;
+- select * from article;
+- delete from article;
+- exit;
+
+
