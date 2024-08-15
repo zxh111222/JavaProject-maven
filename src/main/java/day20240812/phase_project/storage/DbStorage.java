@@ -33,24 +33,24 @@ public class DbStorage implements Storage {
                 checkStmt.setString(1, result.getUrl());
                 ResultSet rs = checkStmt.executeQuery();
                 if (rs.next() && rs.getInt(1) > 0) {
-                    // URL 已经存在，提示并跳过
-                    System.out.println("URL 已存在，跳过: " + result.getUrl());
+                    // URL 已存在，跳过
+                    System.out.println("URL 已存在: " + result.getUrl() + "  ---跳过");
                     continue;
                 }
 
-                // 插入记录
+                // 插入
                 insertStmt.setString(1, result.getTitle());
                 insertStmt.setString(2, result.getUrl());
                 if (result.getCreatedAt() != null) {
                     insertStmt.setTimestamp(3, new Timestamp(result.getCreatedAt().getTime()));
                 } else {
-                    insertStmt.setNull(3, java.sql.Types.TIMESTAMP);
+                    insertStmt.setNull(3, Types.TIMESTAMP);
                 }
 
                 if (result.getUpdatedAt() != null) {
                     insertStmt.setTimestamp(4, new Timestamp(result.getUpdatedAt().getTime()));
                 } else {
-                    insertStmt.setNull(4, java.sql.Types.TIMESTAMP);
+                    insertStmt.setNull(4, Types.TIMESTAMP);
                 }
                 insertStmt.executeUpdate();
             }

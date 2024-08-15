@@ -24,7 +24,11 @@ public class CustomResult {
         this.url = url;
         try {
             // 将字符串解析为 Date 对象
-            this.createdAt = dateFormat_1.parse(createdAt);
+            if (createdAt != null && !createdAt.isEmpty()) {
+                this.createdAt = dateFormat_1.parse(createdAt);
+            } else {
+                this.createdAt = null;
+            }
             if (updatedAt != null && !updatedAt.isEmpty()) {
                 this.updatedAt = dateFormat_2.parse(updatedAt);
             } else {

@@ -2,10 +2,12 @@ package day20240812.phase_project.storage;
 
 
 import day20240812.phase_project.dto.CustomResult;
-import day20240812.phase_project.storage.Storage;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * @author XinhaoZheng
@@ -16,7 +18,7 @@ import java.util.*;
 public class FileStorage implements Storage {
     @Override
     public void save(List<CustomResult> information) throws IOException {
-        File file = new File("src/day20240729/phase_project/resources/storeInfo.properties");
+        File file = new File("src/main/java/io/github/zxh111222/resources/information.data");
         try {
             PrintWriter pw = new PrintWriter(new FileWriter(file));
             for (CustomResult cr : information) {

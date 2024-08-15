@@ -5,9 +5,12 @@ import day20240812.phase_project.dto.CustomResult;
 import day20240812.phase_project.notificator.Notificator;
 import day20240812.phase_project.parser.Parser;
 import day20240812.phase_project.storage.Storage;
+import day20240812.phase_project.util.MyDBUtil;
 
-import java.io.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -96,17 +99,17 @@ public class App {
         String urlParseQuery = "SELECT * FROM url_parse"; // URL 解析配置的查询
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "root", "123456");
-            PreparedStatement appConfigPstmt  = connection.prepareStatement(appConfigQuery );
+            connection = MyDBUtil.getConnection();
+            PreparedStatement appConfigPstmt  = connection.prepareStatement(appConfigQuery);
 
             appConfigPstmt.setString(1, "阶段项目");
             appConfigPstmt.setString(2, "1.0");
 
-            ResultSet appConfigResultSet  = appConfigPstmt .executeQuery();
+            ResultSet appConfigResultSet  = appConfigPstmt.executeQuery();
             while (appConfigResultSet.next()) {
-                String config_name = appConfigResultSet .getString("config_name");
+                String key = appConfigResultSet .getString("key");
                 String value = appConfigResultSet .getString("value");
-                properties.setProperty(config_name, value);
+                properties.setProperty(key, value);
             }
             // 读取 URL 解析配置
             PreparedStatement urlParsePstmt = connection.prepareStatement(urlParseQuery);
@@ -125,9 +128,9 @@ public class App {
                 urlAndParser.add(url);
                 urlAndParser.add(parser);
             }
-            System.out.println("配置文件从数据库读取成功！");
+            System.out.println("配置文件从【数据库】读取成功！");
         } catch (SQLException e) {
-            System.out.println("从数据库读取配置时出错: " + e.getMessage());
+            System.out.println("从【数据库】读取配置时出错: " + e.getMessage());
             throw new RuntimeException(e);
         }
         return properties;

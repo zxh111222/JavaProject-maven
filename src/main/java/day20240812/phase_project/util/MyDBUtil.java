@@ -14,10 +14,7 @@ public class MyDBUtil {
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", "123456");
-            createDatabaseIfNotExists(connection);
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/app", "root", "123456");
-            createTableIfNotExists(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
