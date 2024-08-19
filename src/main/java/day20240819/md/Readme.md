@@ -46,9 +46,9 @@
   - 给 系统配置员 角色分配菜单 `insert into role_menu(role_id, menu_id) values (2, 1), (2, 2), (2, 3)`
   - 给 文章管理员 角色分配菜单 `insert into role_menu(role_id, menu_id) values (3, 2)`
 
-
-
-
+### 小结
+![img_1.png](img_1.png)
+![img_2.png](img_2.png)
 
 
 
